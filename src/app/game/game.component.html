@@ -1,5 +1,5 @@
 <h1>{{ title }}</h1>
-<p>Joueurs : {{nbJoueurs}}</p>
+<p>Joueurs : {{ nbJoueurs }}</p> <p>Carte <strong>Déminage</strong> trouvées : {{ deminageTrouve }} / {{ deminageTotal }}</p>
 
-<div id="game-container" class="col-12">
+<div id="game-container" class="col-12" (click)="selectedCard($event)">
 </div>
