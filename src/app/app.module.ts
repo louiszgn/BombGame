@@ -5,11 +5,12 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { GameComponent } from './game/game.component';
+import { AccueilComponent } from './accueil/accueil.component';
 
 
 //Configuration des routes
 const routes: Routes = [
-  { path: 'accueil', component: AppComponent },
+  { path: 'accueil', component: AccueilComponent },
   { path: 'game/:nbJoueurs', component: GameComponent },
   { path: '', redirectTo: 'accueil', pathMatch: 'full' }
 ];
@@ -18,7 +19,8 @@ const routes: Routes = [
 @NgModule({
   declarations: [ // liste des composants / directives ... qu'on utilise dans ce module
     AppComponent,
-    GameComponent
+    GameComponent,
+    AccueilComponent
   ],
   imports: [ // liste des Modules qu'on utilise dans ce module
     BrowserModule,

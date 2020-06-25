@@ -1,15 +1,19 @@
-<h1>{{ title }}</h1>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<a class="navbar-brand">BombGame</a>
 
-<h2>créer une partie</h2>
+	<div class="collapse navbar-collapse">
+		<ul class="navbar-nav">
+			<li class="nav-item" routerLinkActive="active">
+				<a class="nav-link" routerLink="/accueil">Accueil</a>
+			</li>
 
-<div>
-  <label>Nombre de joueurs :</label>
-  <select [(ngModel)]="nbJoueurs">
-    <option value="4">4 joueurs</option>
-    <option value="5">5 joueurs</option>
-    <option value="6">6 joueurs</option>
-  </select>
-  <button (click)="beginGame()">partie à {{ nbJoueurs }} Joueurs</button>
+			<li class="nav-item" routerLinkActive="active">
+				<a class="nav-link" routerLink="/game/4">Game (4)</a>
+			</li>
+		</ul>
+	</div>
+</nav>
+
+<div class="container">
+	<router-outlet></router-outlet>
 </div>
-
-

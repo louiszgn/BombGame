@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { get } from 'http';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-game',
@@ -8,11 +8,12 @@ import { get } from 'http';
 })
 export class GameComponent implements OnInit {
   title = 'The game';
-  // public nbJoueurs = get;
+  public nbJoueurs: string;
 
-  constructor() { }
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
+    this.nbJoueurs = this.route.snapshot.paramMap.get('nbJoueurs');
   }
 
 }
