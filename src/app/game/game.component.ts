@@ -15,7 +15,7 @@ export class GameComponent implements OnInit {
   constructor(private route: ActivatedRoute) {}
 
   joueurs: Array<Joueur>= new Array<Joueur>();
-  cartes: Array<Carte>= new Array<Carte>();
+  deck: Array<Carte>= new Array<Carte>();
 
   ngOnInit() {
     this.nbJoueurs = this.route.snapshot.paramMap.get('nbJoueurs');
@@ -39,6 +39,8 @@ export class GameComponent implements OnInit {
       gameCards = 30;
     }
     this.addJoueur(gamePlayers);
+    this.addCarte(gameCards);
+    this.distribCarte();
     
   }
 
@@ -60,13 +62,38 @@ export class GameComponent implements OnInit {
 
       }
     });
-    this.showGame();
   }
 
-  public showGame(){
-    this.joueurs.forEach(element => {
-      alert(element.team);
-    });
+  public addCarte(gameCards: number){
     
+  let carteDeminage: number = Math.floor(gameCards*0.25);
+  let carteLeurre: number = gameCards - (carteDeminage+1);
+  let carteBombe: number = 1;
+  var i:number ;
+
+  for( i=carteDeminage ; i> 0 ; i-- ) {
+      let card: Carte = new Carte('Deminage');
+      this.deck.push(card);
+  }
+
+  for( i=carteLeurre ; i> 0 ; i-- ) {
+    let card: Carte = new Carte('Leurre');
+    this.deck.push(card);
+  }
+
+  let card: Carte = new Carte('Bombe');
+
+  this.deck.push(card);
+  }
+
+  public distribCarte(){
+    this.joueurs.forEach(element => {
+      let i: number;
+      for(i = 5; i>0;i--){
+        element.addCarte(this.deck.shift());
+      }
+      alert(element.JoueurNumber+'  '+ element.returnCarte());
+      alert(this.deck);
+    });
   }
 }
