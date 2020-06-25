@@ -41,6 +41,7 @@ export class GameComponent implements OnInit {
     this.addJoueur(gamePlayers);
     this.addCarte(gameCards);
     this.distribCarte();
+    this.game();
     
   }
 
@@ -68,7 +69,6 @@ export class GameComponent implements OnInit {
     
   let carteDeminage: number = Math.floor(gameCards*0.25);
   let carteLeurre: number = gameCards - (carteDeminage+1);
-  let carteBombe: number = 1;
   var i:number ;
 
   for( i=carteDeminage ; i> 0 ; i-- ) {
@@ -90,10 +90,21 @@ export class GameComponent implements OnInit {
     this.joueurs.forEach(element => {
       let i: number;
       for(i = 5; i>0;i--){
-        element.addCarte(this.deck.shift());
+        let min = 0;
+        let max = this.deck.length - 1;
+        let rand = Math.floor(Math.random() * (max - min +1) + min);
+        element.addCarte(this.deck[rand]);
+        this.deck.splice(rand, 1);
       }
-      alert(element.JoueurNumber+'  '+ element.returnCarte());
-      alert(this.deck);
+      console.log(element.deck);
+    });
+  }
+
+  public game(){
+    let numJoueur: number = 1;
+
+    this.joueurs.forEach(element => {
+      document.getElementById("game-container").innerHTML += '<div id="'+element.JoueurNumber+'" class="div-joueur col-4 border-1"></div>';
     });
   }
 }

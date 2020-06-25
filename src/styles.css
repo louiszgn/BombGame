@@ -1,2 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~bootstrap/dist/css/bootstrap.min.css';
+
+/***** Game *****/
+.div-joueur {
+    width: 100px;
+    height: 100px;
+}
+.div-joueur:nth-child(1) { background-color: blue; }
+.div-joueur:nth-child(2) { background-color: red; }
+.div-joueur:nth-child(3) { background-color: black; }
+.div-joueur:nth-child(4) { background-color: brown; }
+.div-joueur:nth-child(5) { background-color: pink; }
+.div-joueur:nth-child(6) { background-color: yellow; }
+/***** Fin Game *****/
