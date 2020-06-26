@@ -1,0 +1,46 @@
+.list-equipe {
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: 20px;
+}
+
+.list-equipe div div {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+}
+
+.equipe-Sherlock {
+    background-color: #9b4e25;
+}
+.equipe-Moriarty {
+    background-color: #333;
+}
+.active-joueur {
+    border: 2px solid red;
+}
+
+#game-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.div-joueur {
+    display: flex;
+    flex-wrap: wrap;
+    width: calc(33% - 10px);
+    margin-bottom: 20px;
+    color: #FFF;
+}
+
+.div-joueur div {
+    width: 50%;
+    text-align: center;
+    margin: 5px 0;
+    cursor: pointer;
+}
+.div-joueur div:nth-child(1) {
+    width: 100%;
+    cursor: default;
+}

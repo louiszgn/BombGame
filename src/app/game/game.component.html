@@ -1,5 +1,10 @@
 <h1>{{ title }}</h1>
-<p>Joueurs : {{ nbJoueurs }}</p> <p>Carte <strong>Déminage</strong> trouvées : {{ deminageTrouve }} / {{ deminageTotal }}</p>
+<p>Joueurs : {{ nbJoueurs }}<br>Carte Déminage trouvées : <strong>{{ deminageTrouve }}</strong> / {{ deminageTotal }}</p>
+<div class="list-equipe">
+    <div>Equipe Sherlock : <div class="equipe-Sherlock"></div></div>
+    <div>Equipe Moriarty : <div class="equipe-Moriarty"></div></div>
+    <div>Joueur actif : <div class="active-joueur"></div></div>
+</div>
 
-<div id="game-container" class="col-12" (click)="selectedCard($event)">
+<div id="game-container" (click)="selectedCard($event)">
 </div>

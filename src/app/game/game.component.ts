@@ -79,7 +79,7 @@ export class GameComponent implements OnInit {
     this.deminageTrouve = 0;
 
     this.joueurs.forEach(element => {
-      document.getElementById("game-container").innerHTML += '<div id="'+element.JoueurNumber+'" class="div-joueur col-4 border-1"></div>';
+      document.getElementById("game-container").innerHTML += '<div id="'+element.JoueurNumber+'" class="div-joueur equipe-'+element.team+'"></div>';
 
       this.cardReload(element);
     });
@@ -111,9 +111,10 @@ export class GameComponent implements OnInit {
     let compteur: number = 0;
 
     document.getElementById(joueur.JoueurNumber).innerHTML = ''; // Supprime les cartes existantes
+    document.getElementById(joueur.JoueurNumber).innerHTML = '<div>Joueur '+(joueur.JoueurNumber + 1)+'</div>';
 
     joueur.deck.forEach(carte => {
-      document.getElementById(joueur.JoueurNumber.toString()).innerHTML += '<div id="'+joueur.JoueurNumber.toString()+'-'+compteur+'" class="div-carte">'+(compteur+1)+'</div>';
+      document.getElementById(joueur.JoueurNumber.toString()).innerHTML += '<div id="'+joueur.JoueurNumber.toString()+'-'+compteur+'" class="div-carte">Carte '+(compteur + 1)+'</div>';
       compteur++;
     });
   }
