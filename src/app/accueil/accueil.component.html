@@ -1,13 +1,9 @@
 <h1>{{ title }}</h1>
 
-<h2>créer une partie</h2>
+<h2>Créer une partie</h2>
 
 <div>
   <label>Nombre de joueurs :</label>
-  <select [(ngModel)]="nbJoueurs">
-    <option value="4">4 joueurs</option>
-    <option value="5">5 joueurs</option>
-    <option value="6">6 joueurs</option>
-  </select>
+  <input type="number" min="2" [(ngModel)]="nbJoueurs">
   <button (click)="beginGame()">partie à {{ nbJoueurs }} Joueurs</button>
 </div>

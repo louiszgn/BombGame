@@ -12,7 +12,7 @@ import { Carte } from '../carte';
 export class GameComponent implements OnInit {
   title = 'The game';
   public nbJoueurs: string;
-  public numJoueur:number;
+  public numJoueur: number;
   public deminageTotal: number;
   public deminageTrouve: number;
 
@@ -27,83 +27,54 @@ export class GameComponent implements OnInit {
   }
 
 
-  public beginGame(){
-    let gamePlayers: Array<string>;
-    let gameCards: number;
-    
-    if(this.nbJoueurs == "4"){
-      gamePlayers = ["sherlock","sherlock","moriarty","moriarty"];
-      gameCards = 20;
-    }else if(this.nbJoueurs == "5"){
-      gamePlayers = ["sherlock","sherlock","sherlock","moriarty","moriarty"];
-      gameCards = 25;
-    }else if(this.nbJoueurs == "6"){
-      gamePlayers = ["sherlock","sherlock","sherlock","moriarty","moriarty","moriarty"];
-      gameCards = 30;
-    }
-    this.addJoueur(gamePlayers);
-    this.addCarte(gameCards);
+  public beginGame() {
+    this.addJoueur();
+    this.addCarte();
     this.distribCarte();
     this.game();
-    
   }
 
-  public addJoueur(gamePlayers: Array<string>){
-
+  public addJoueur() {
+    let teamM = Math.floor(parseInt(this.nbJoueurs, 10) / 2);
+    let teamS = parseInt(this.nbJoueurs, 10) - teamM;
     let joueursNumber: number = 0;
 
-    gamePlayers.forEach(element => {
-      if(element == "sherlock"){
-        
-        let player: Joueur = new Joueur('sherlock',joueursNumber);
-        this.joueurs.push(player);
-
-      }else if(element == "moriarty"){
-        
-        this.joueurs.push(new Joueur('moriarty',joueursNumber));
-
-      }
-
-      joueursNumber ++;
-    });
+    for (let i = 0; i < teamS; i++) {
+      this.joueurs.push(new Joueur('Sherlock', joueursNumber));
+      joueursNumber++;
+    }
+    for (let i = 0; i < teamM; i++) {
+      this.joueurs.push(new Joueur('Moriarty', joueursNumber));
+      joueursNumber++;
+    }
   }
 
-  public addCarte(gameCards: number){
-    
-  let carteDeminage: number = Math.floor(gameCards*0.25);
-  let carteLeurre: number = gameCards - (carteDeminage+1);
-  var i:number ;
-  this.deminageTotal = carteDeminage;
+  public addCarte() {
+    let gameCards: number = parseInt(this.nbJoueurs, 10) * 5;
+    let carteDeminage: number = Math.floor(gameCards * 0.25);
+    let carteLeurre: number = gameCards - (carteDeminage + 1);
+    var i:number;
+    this.deminageTotal = carteDeminage;
 
-  for( i=carteDeminage ; i> 0 ; i-- ) {
-      let card: Carte = new Carte('Déminage');
-      this.deck.push(card);
+    for(i=carteDeminage; i > 0; i--) this.deck.push(new Carte('Déminage'));
+    for(i=carteLeurre; i > 0 ; i--) this.deck.push(new Carte('Leurre'));
+    this.deck.push(new Carte('Bombe'));
   }
 
-  for( i=carteLeurre ; i> 0 ; i-- ) {
-    let card: Carte = new Carte('Leurre');
-    this.deck.push(card);
-  }
-
-  let card: Carte = new Carte('Bombe');
-
-  this.deck.push(card);
-  }
-
-  public distribCarte(){
+  public distribCarte() {
     this.joueurs.forEach(element => {
-      let i: number;
-      for(i = 5; i>0;i--){
+      for(let i = 5; i > 0; i--) {
         let min = 0;
         let max = this.deck.length - 1;
-        let rand = Math.floor(Math.random() * (max - min +1) + min);
+        let rand = Math.floor(Math.random() * (max - min + 1) + min);
+
         element.addCarte(this.deck[rand]);
         this.deck.splice(rand, 1);
       }
     });
   }
 
-  public game(){
+  public game() {
     this.numJoueur = 0;
     this.deminageTrouve = 0;
 
@@ -116,7 +87,7 @@ export class GameComponent implements OnInit {
     document.getElementById(this.numJoueur.toString()).classList.add("active-joueur");
   }
 
-  public selectedCard(e){
+  public selectedCard(e) {
     let selectedPlayer = e.target.parentNode.id;
 
     if(selectedPlayer == this.numJoueur) return; // Ne fais rien si la carte séléctionnée appartient au joueur actuel
@@ -139,11 +110,10 @@ export class GameComponent implements OnInit {
   public cardReload(joueur) {
     let compteur: number = 0;
 
-    document.getElementById(joueur.JoueurNumber).innerHTML = '';
+    document.getElementById(joueur.JoueurNumber).innerHTML = ''; // Supprime les cartes existantes
 
     joueur.deck.forEach(carte => {
-      // document.getElementById(element.JoueurNumber.toString()).innerHTML += '<div class="div-carte" (click)="selectedCard($event)">'+ carte.nom+'</div>';(compteur+1)
-      document.getElementById(joueur.JoueurNumber.toString()).innerHTML += '<div id="'+joueur.JoueurNumber.toString()+'-'+compteur+'" class="div-carte">'+carte.nom+'</div>';
+      document.getElementById(joueur.JoueurNumber.toString()).innerHTML += '<div id="'+joueur.JoueurNumber.toString()+'-'+compteur+'" class="div-carte">'+(compteur+1)+'</div>';
       compteur++;
     });
   }
