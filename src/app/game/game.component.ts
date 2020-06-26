@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { Joueur } from '../Joueur';
 import { Carte } from '../carte';
 
@@ -15,7 +16,7 @@ export class GameComponent implements OnInit {
   public deminageTotal: number;
   public deminageTrouve: number;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private router: Router) {}
 
   joueurs: Array<Joueur>= new Array<Joueur>();
   deck: Array<Carte>= new Array<Carte>();
@@ -52,18 +53,18 @@ export class GameComponent implements OnInit {
     let joueursNumber: number = 0;
 
     gamePlayers.forEach(element => {
-      joueursNumber ++;
-      
       if(element == "sherlock"){
         
-        let player: Joueur = new Joueur('sherlock',joueursNumber, true);
+        let player: Joueur = new Joueur('sherlock',joueursNumber);
         this.joueurs.push(player);
 
       }else if(element == "moriarty"){
         
-        this.joueurs.push(new Joueur('moriarty',joueursNumber, false));
+        this.joueurs.push(new Joueur('moriarty',joueursNumber));
 
       }
+
+      joueursNumber ++;
     });
   }
 
@@ -103,19 +104,13 @@ export class GameComponent implements OnInit {
   }
 
   public game(){
-    this.numJoueur = 1;
+    this.numJoueur = 0;
     this.deminageTrouve = 0;
 
     this.joueurs.forEach(element => {
-      let compteur: number = 0;
-
       document.getElementById("game-container").innerHTML += '<div id="'+element.JoueurNumber+'" class="div-joueur col-4 border-1"></div>';
 
-      element.deck.forEach(carte => {
-        // document.getElementById(element.JoueurNumber.toString()).innerHTML += '<div class="div-carte" (click)="selectedCard($event)">'+ carte.nom+'</div>';
-        document.getElementById(element.JoueurNumber.toString()).innerHTML += '<div id="'+element.JoueurNumber.toString()+'-'+compteur+'" class="div-carte" (click)="selectedCard($event)">'+compteur+'</div>';
-        compteur++;
-      });
+      this.cardReload(element);
     });
 
     document.getElementById(this.numJoueur.toString()).classList.add("active-joueur");
@@ -128,15 +123,54 @@ export class GameComponent implements OnInit {
 
     let cardInfos = e.target.id.split('-'); // [0] = Id du joueur ||||| [1] = Position de la carte
     let cardName = this.joueurs[cardInfos[0]].deck[cardInfos[1]].nom;
-    this.joueurs[cardInfos[0]].deck.splice(cardInfos[1], 1); // IL FAUT ACTUALISER LES DIV DES CARTES POUR QU'ELLES DISPARAISSENT APRES CA
+    this.joueurs[cardInfos[0]].deck.splice(cardInfos[1], 1);
 
-    alert("C'était une carte <strong>"+cardName+"</strong> !");
+    this.cardReload(this.joueurs[cardInfos[0]]);
+
+    alert("C'était une carte "+cardName+" !");
 
     document.getElementById(this.numJoueur.toString()).classList.remove("active-joueur");
     this.numJoueur = cardInfos[0];
     document.getElementById(this.numJoueur.toString()).classList.add("active-joueur");
 
-    if (cardName === "Déminage") this.deminageTrouve++; // Sûrement à mettre dans la fonction qui vérifie si la partie est finie
+    this.checkEndGame(cardName);
+  }
 
+  public cardReload(joueur) {
+    let compteur: number = 0;
+
+    document.getElementById(joueur.JoueurNumber).innerHTML = '';
+
+    joueur.deck.forEach(carte => {
+      // document.getElementById(element.JoueurNumber.toString()).innerHTML += '<div class="div-carte" (click)="selectedCard($event)">'+ carte.nom+'</div>';(compteur+1)
+      document.getElementById(joueur.JoueurNumber.toString()).innerHTML += '<div id="'+joueur.JoueurNumber.toString()+'-'+compteur+'" class="div-carte">'+carte.nom+'</div>';
+      compteur++;
+    });
+  }
+
+  public checkEndGame(cardName) {
+    let team: string;
+    let end: boolean = false;
+    let msg: string = "";
+
+    if (cardName == 'Déminage') this.deminageTrouve++;
+    if (this.deminageTrouve === this.deminageTotal) {
+      msg += "Toutes les cartes Déminage ont été trouvées !";
+      team = "Sherlock";
+      end = true;
+    }
+
+    if (cardName == 'Bombe') {
+      msg += "La carte Bombe a été trouvée !";
+      team = "Moriarty";
+      end = true;
+    }
+
+    if (end === true) {
+      msg += "\r\nL'équipe " +team+ " a gagnée !";
+      alert(msg);
+
+      this.router.navigate(['']);
+    }
   }
 }

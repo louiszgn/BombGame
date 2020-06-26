@@ -12,7 +12,7 @@
 
 .active-joueur { border-width: 3px; }
 
-.div-carte { width: 100%; height: 10px; }
+.div-carte { width: 100%; min-height: 10px; }
 .div-carte:nth-child(1) { background-color: cyan; }
 .div-carte:nth-child(2) { background-color: red; }
 .div-carte:nth-child(3) { background-color: purple; }
